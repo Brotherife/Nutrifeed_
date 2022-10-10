@@ -6,8 +6,10 @@ const removeSidebar = document.querySelector('.remove-sidebar');
 const sidebarLinks = document.querySelectorAll('.sidebar-link');
 const body = document.querySelector('.webpage-body');
 const nav = document.querySelector('.nav');
+const header = document.querySelector('header');
 const topLink = document.querySelector('.top-link');
 const scrollLink = document.querySelectorAll('.scroll-link');
+const navHeight = nav.getBoundingClientRect().height;
 
 toggleBtn.addEventListener('click', () => {
   sidebar.classList.toggle('show-sidebar');
@@ -27,22 +29,23 @@ body.addEventListener('click', () => {
   sidebar.classList.remove('show-sidebar');
 });
 
-window.addEventListener('scroll', () => {
-  const scrollHeight = window.pageYOffset;
-  const navHeight = nav.getBoundingClientRect().height;
-
-  if (scrollHeight > navHeight) {
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) {
     nav.classList.add('fixed-nav');
-  } else {
-    nav.classList.remove('fixed-nav');
-  }
-
-  if (scrollHeight > 500) {
     topLink.classList.add('show-top-link');
   } else {
+    nav.classList.remove('fixed-nav');
     topLink.classList.remove('show-top-link');
   }
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
 });
+headerObserver.observe(header);
 
 scrollLink.forEach(link => {
   link.addEventListener('click', e => {
