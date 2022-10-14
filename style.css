@@ -34,6 +34,19 @@ body {
   z-index: 3;
 }
 
+.lazy-img {
+  filter: blur(20px);
+}
+
+section {
+  transition: transform 1s, opacity 1s;
+}
+
+.section--hidden {
+  opacity: 0;
+  transform: translateY(8rem);
+}
+
 .show-sidebar {
   transform: translate(0);
 }
@@ -733,7 +746,7 @@ hr {
 }
 
 .nav-link::after {
-  content: "";
+  content: '';
   position: absolute;
   background-color: var(--paleGold);
   height: 2px;
